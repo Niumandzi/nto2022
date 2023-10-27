@@ -10,6 +10,58 @@ import (
 )
 
 func SetContactScreen(content *fyne.Container, c usecase.ContactUseCase) {
+	leftSide := CreateContact(content, c)
+	rightSide := AllContacts(content, c)
+
+	screen := container.NewHBox(leftSide, rightSide)
+
+	content.Add(screen)
+}
+
+func ContactCard(contact model.Contact) string {
+	var contactTypeData string
+
+	switch contact.ContactType {
+	case "private_client":
+		contactTypeData = "Приватное лицо"
+	case "legal_client":
+		contactTypeData = "Легальное лицо"
+	case "worker":
+		contactTypeData = "Управляющий"
+	}
+
+	contactCard := contactTypeData + "\n" + contact.Name + "\n" + contact.Number
+
+	return contactCard
+}
+
+func AllContacts(content *fyne.Container, c usecase.ContactUseCase) *widget.List {
+	ctx := context.Background()
+	contacts, err := c.GetAllContacts(ctx)
+	if err != nil {
+		NewModalWindow(content, err.Error())
+	}
+	rightSide := widget.NewList(
+		func() int {
+			return len(contacts)
+		},
+		func() fyne.CanvasObject {
+			wdg := widget.NewLabel("")
+			wdg.Resize(fyne.NewSize(500, 500))
+			return wdg // представление контакта
+		},
+		func(id widget.ListItemID, obj fyne.CanvasObject) {
+			label := obj.(*widget.Label)
+			label.Resize(fyne.NewSize(500, 500))
+			contact := contacts[id]
+			label.SetText(ContactCard(contact))
+		},
+	)
+	rightSide.Resize(fyne.NewSize(500, 500))
+	return rightSide
+}
+
+func CreateContact(content *fyne.Container, c usecase.ContactUseCase) *fyne.Container {
 	label := widget.NewLabel("Создание контакта")
 
 	contactType := widget.NewSelect([]string{"Приватное лицо", "Легальное лицо", "Управляющий"}, func(s string) {})
@@ -46,6 +98,7 @@ func SetContactScreen(content *fyne.Container, c usecase.ContactUseCase) {
 		if err != nil {
 			NewModalWindow(content, err.Error())
 		}
+		SetContactScreen(content, c)
 	})
 
 	leftSide := container.NewVBox(
@@ -56,5 +109,6 @@ func SetContactScreen(content *fyne.Container, c usecase.ContactUseCase) {
 		contactEmail,
 		createBtn,
 	)
-	content.Add(leftSide)
+
+	return leftSide
 }
