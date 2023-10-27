@@ -47,7 +47,7 @@ func TestHotelRepository_Create(t *testing.T) {
 			},
 			args: args{
 				context.Background(),
-				model.Hotel{Name: "test", LocationId: -1, Number: "number", WorkerId: 1, Description: "description"},
+				model.Hotel{Name: "test", LocationId: 1, Number: "number", WorkerId: 1, Description: "description"},
 			},
 			wantErr: false,
 		},
