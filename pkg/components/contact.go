@@ -14,7 +14,8 @@ func SetContactScreen(content *fyne.Container, c usecase.ContactUseCase) {
 	rightSide := AllContacts(content, c)
 
 	screen := container.NewHBox(leftSide, rightSide)
-
+	//content.Add(leftSide)
+	//content.Add(rightSide)
 	content.Add(screen)
 }
 
@@ -30,7 +31,7 @@ func ContactCard(contact model.Contact) string {
 		contactTypeData = "Управляющий"
 	}
 
-	contactCard := contactTypeData + "\n" + contact.Name + "\n" + contact.Number
+	contactCard := "Статус: " + contactTypeData + "\n" + "Имя: " + contact.Name + "\n" + "Номер: " + contact.Number
 
 	return contactCard
 }
@@ -46,7 +47,9 @@ func AllContacts(content *fyne.Container, c usecase.ContactUseCase) *widget.List
 			return len(contacts)
 		},
 		func() fyne.CanvasObject {
-			wdg := widget.NewLabel("")
+			wdg := widget.NewLabel(`ffffffffffdsygsdyufsdhfusdfsdfuyhsdyufsdhfysdfhsyudf
+										 ffffffffffdsygsdyufsdhfusdfsdfuyhsdyufsdhfysdfhsyudf
+										 ffffffffffdsygsdyufsdhfusdfsdfuyhsdyufsdhfysdfhsyudf`)
 			wdg.Resize(fyne.NewSize(500, 500))
 			return wdg // представление контакта
 		},
