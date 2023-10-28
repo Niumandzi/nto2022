@@ -67,7 +67,7 @@ func AllContacts(content *fyne.Container, c usecase.ContactUseCase) *widget.List
 func CreateContact(content *fyne.Container, c usecase.ContactUseCase) *fyne.Container {
 	label := widget.NewLabel("Создание контакта")
 
-	contactType := widget.NewSelect([]string{"Приватное лицо", "Легальное лицо", "Управляющий"}, func(s string) {})
+	contactType := widget.NewSelect([]string{"Физическое лицо", "Юридическое лицо", "Управляющий"}, func(s string) {})
 
 	contactName := widget.NewEntry()
 	contactName.SetPlaceHolder("Имя")
@@ -84,9 +84,9 @@ func CreateContact(content *fyne.Container, c usecase.ContactUseCase) *fyne.Cont
 		var contactTypeData string
 
 		switch contactType.Selected {
-		case "Приватное лицо":
+		case "Физическое лицо":
 			contactTypeData = "private_client"
-		case "Легальное лицо":
+		case "Юридическое лицо":
 			contactTypeData = "legal_client"
 		case "Управляющий":
 			contactTypeData = "worker"

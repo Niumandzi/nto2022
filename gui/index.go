@@ -18,8 +18,7 @@ func Index(ctx context.Context, cases *usecase.UseCases) {
 	tutorial := container.NewBorder(nil, nil, nil, nil, content)
 
 	split := container.NewHSplit(components.NavigationBar(content, cases.Contact), tutorial)
-	//split := container.NewHSplit(widget.NewEntry(), widget.NewEntry())
-	//fmt.Printf("%T", cases.Contact)
+
 	split.Offset = 0
 	w.SetContent(split)
 
