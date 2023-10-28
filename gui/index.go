@@ -23,6 +23,6 @@ func Index(ctx context.Context, cases *usecase.UseCases) {
 	split.Offset = 0
 	w.SetContent(split)
 
-	w.Resize(fyne.NewSize(900, 900))
+	w.Resize(fyne.NewSize(1200, 700))
 	w.ShowAndRun()
 }

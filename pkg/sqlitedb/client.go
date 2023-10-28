@@ -12,7 +12,6 @@ func NewClient(driverName string, filePath string) (*sql.DB, error) {
 	}
 
 	return db, nil
-
 }
 
 func CreateTables(db *sql.DB) error {

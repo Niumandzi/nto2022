@@ -2,7 +2,7 @@ package config
 
 import (
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"os"
 )
 
 type config struct {
@@ -12,7 +12,7 @@ type config struct {
 }
 
 func InitConfig() (*config, error) {
-	yamlFile, err := ioutil.ReadFile("config.yaml")
+	yamlFile, err := os.ReadFile("config.yaml")
 	if err != nil {
 		return nil, err
 	}
