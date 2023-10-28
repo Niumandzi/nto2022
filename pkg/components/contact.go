@@ -13,7 +13,7 @@ func SetContactScreen(content *fyne.Container, c usecase.ContactUseCase) {
 	leftSide := CreateContact(content, c)
 	rightSide := AllContacts(content, c)
 
-	screen := container.NewHBox(leftSide, rightSide)
+	screen := container.NewHBox(leftSide, container.NewVScroll(rightSide))
 	//content.Add(leftSide)
 	//content.Add(rightSide)
 	content.Add(screen)
@@ -24,9 +24,9 @@ func ContactCard(contact model.Contact) string {
 
 	switch contact.ContactType {
 	case "private_client":
-		contactTypeData = "Приватное лицо"
+		contactTypeData = "Физическое лицо"
 	case "legal_client":
-		contactTypeData = "Легальное лицо"
+		contactTypeData = "Юридическое лицо"
 	case "worker":
 		contactTypeData = "Управляющий"
 	}
