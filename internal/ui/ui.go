@@ -10,13 +10,10 @@ func SetupNavigation(nav *widget.Tree, content *fyne.Container) {
 		// Обработка выбранного элемента
 		// Обновляем основной контент в зависимости от выбранного элемента
 		switch id {
-		case "Главная":
+		case "отели":
 			// content.Objects = []fyne.CanvasObject{...}
-		case "Пользователи":
+		case "контакты":
 			// content.Objects = []fyne.CanvasObject{...}
-		case "Пользователи/Пользователь 1":
-			// content.Objects = []fyne.CanvasObject{...}
-			// ... обрабатываем другие случаи
 		}
 		content.Refresh() // Обновляем содержимое контейнера
 	}
