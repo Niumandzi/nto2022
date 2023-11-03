@@ -6,8 +6,8 @@ import (
 	"github.com/niumandzi/nto2022/model"
 )
 
-func (c ContactUsecase) GetContactsByType(ctx context.Context, contactType string) ([]model.Contact, error) {
-	ctx, cancel := context.WithTimeout(ctx, c.contextTimeout)
+func (c ContactUsecase) GetContactsByType(contactType string) ([]model.Contact, error) {
+	ctx, cancel := context.WithTimeout(c.ctx, c.contextTimeout)
 	defer cancel()
 
 	err := validation.Validate(contactType, validation.Required, validation.In("worker", "private_client", "legal_client"))

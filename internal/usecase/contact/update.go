@@ -8,8 +8,8 @@ import (
 	"regexp"
 )
 
-func (c ContactUsecase) UpdateContact(ctx context.Context, contactInput model.Contact) error {
-	ctx, cancel := context.WithTimeout(ctx, c.contextTimeout)
+func (c ContactUsecase) UpdateContact(contactInput model.Contact) error {
+	ctx, cancel := context.WithTimeout(c.ctx, c.contextTimeout)
 	defer cancel()
 
 	err := validation.ValidateStruct(&contactInput,

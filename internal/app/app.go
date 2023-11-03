@@ -5,14 +5,16 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"github.com/niumandzi/nto2022/internal/ui/widget"
+	"github.com/niumandzi/nto2022/internal/usecase"
 )
 
 type GUI struct {
 	App    fyne.App
 	Window fyne.Window
+	Cases  *usecase.UseCases
 }
 
-func NewGUI() *GUI {
+func NewGUI(cases *usecase.UseCases) *GUI {
 	// Инициализация нового приложения Fyne
 	a := app.New()
 
@@ -27,6 +29,7 @@ func NewGUI() *GUI {
 	return &GUI{
 		App:    a,
 		Window: w,
+		Cases:  cases,
 	}
 }
 func (gui *GUI) SetupUI() {
@@ -34,7 +37,7 @@ func (gui *GUI) SetupUI() {
 	mainContent := container.NewMax()
 
 	// Создаем навигационную панель с функцией переключения контента
-	navBar := widget.NavigationBar(mainContent)
+	navBar := widget.NavigationBarWidget(mainContent, gui.Cases)
 
 	// Объединяем навигационную панель и основное содержимое
 	splitContainer := container.NewHSplit(container.NewVScroll(navBar), mainContent)

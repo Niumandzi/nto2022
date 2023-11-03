@@ -3,9 +3,11 @@ package widget
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
+	"github.com/niumandzi/nto2022/internal/ui/page"
+	"github.com/niumandzi/nto2022/internal/usecase"
 )
 
-func NavigationBar(mainContent *fyne.Container) *widget.Tree {
+func NavigationBarWidget(mainContent *fyne.Container, cases *usecase.UseCases) *widget.Tree {
 	// Дерево навигации
 	treeData := map[string][]string{
 		"": {"отели", "контакты"}}
@@ -18,7 +20,7 @@ func NavigationBar(mainContent *fyne.Container) *widget.Tree {
 		case "отели":
 			//content = ui.ShowHotels() // Предположим, что ui.ShowHotels возвращает fyne.CanvasObject
 		case "контакты":
-			//content = ui.ShowManagers()
+			content = page.ShowContacts(cases)
 		default:
 			content = widget.NewLabel("Выберите категорию")
 		}

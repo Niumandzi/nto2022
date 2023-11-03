@@ -38,12 +38,11 @@ func main() {
 	contactRepo := contactRepository.NewContactRepository(db, logger)
 	hotelRepo := hotelRepository.NewHotelRepository(db, logger)
 
-	contact := contactUsecase.NewContacUsecase(contactRepo, timeoutContext, logger)
+	contact := contactUsecase.NewContacUsecase(contactRepo, timeoutContext, logger, ctx)
 	hotel := hotelUsecase.NewHotelUsecase(hotelRepo, timeoutContext, logger)
 
 	cases := usecase.NewUsecases(contact, hotel)
-	println(ctx, cases)
 
-	gui := app.NewGUI()
+	gui := app.NewGUI(cases)
 	gui.Run()
 }

@@ -1,4 +1,4 @@
-package components
+package widget
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func NewModalWindow(content fyne.CanvasObject, s string) {
+func ModalWindowWidget(content fyne.CanvasObject, s string) {
 	var popUp *widget.PopUp
 	mainWin := fyne.CurrentApp().Driver().CanvasForObject(content)
 

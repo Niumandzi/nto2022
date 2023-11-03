@@ -6,12 +6,12 @@ import (
 )
 
 type ContactUseCase interface {
-	CreateContact(ctx context.Context, contact model.Contact) (int, error)
-	GetContact(ctx context.Context, contactId int) (model.Contact, error)
-	GetContactsByType(ctx context.Context, contactType string) ([]model.Contact, error)
-	GetAllContacts(ctx context.Context) ([]model.Contact, error)
-	UpdateContact(ctx context.Context, contactInput model.Contact) error
-	DeleteContact(ctx context.Context, contactId int) error
+	CreateContact(contact model.Contact) (int, error)
+	GetContact(contactId int) (model.Contact, error)
+	GetContactsByType(contactType string) ([]model.Contact, error)
+	GetAllContacts() ([]model.Contact, error)
+	UpdateContact(contactInput model.Contact) error
+	DeleteContact(contactId int) error
 }
 
 type HotelUseCase interface {
