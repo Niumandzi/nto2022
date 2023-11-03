@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/niumandzi/nto2022/gui"
+	"github.com/niumandzi/nto2022/internal/app"
 	"github.com/niumandzi/nto2022/internal/config"
 	contactRepository "github.com/niumandzi/nto2022/internal/repository/contact"
 	hotelRepository "github.com/niumandzi/nto2022/internal/repository/hotel"
@@ -42,5 +42,8 @@ func main() {
 	hotel := hotelUsecase.NewHotelUsecase(hotelRepo, timeoutContext, logger)
 
 	cases := usecase.NewUsecases(contact, hotel)
-	gui.Index(ctx, cases)
+	println(ctx, cases)
+
+	gui := app.NewGUI()
+	gui.Run()
 }
