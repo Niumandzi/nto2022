@@ -21,3 +21,7 @@ type HotelRepository interface {
 	Update(ctx context.Context, hotel model.Hotel) error
 	Delete(ctx context.Context, hotelId int) error
 }
+
+type TourRepository interface {
+	GetById(ctx context.Context, tourId int) (model.TourWithHotel, error)
+}
