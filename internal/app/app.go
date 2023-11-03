@@ -4,7 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
-	"github.com/niumandzi/nto2022/internal/ui/widgets"
+	"github.com/niumandzi/nto2022/internal/ui/widget"
 )
 
 type GUI struct {
@@ -18,7 +18,7 @@ func NewGUI() *GUI {
 
 	// Создание главного окна приложения
 	w := a.NewWindow("НТО 2022")
-	w.Resize(fyne.NewSize(800, 600)) // Установка стандартных размеров окна
+	w.Resize(fyne.NewSize(1200, 700)) // Установка стандартных размеров окна
 
 	// Здесь могут быть вызовы функций, которые настраивают глобальные ресурсы,
 	// такие как база данных, конфигурации и т.д.
@@ -30,17 +30,15 @@ func NewGUI() *GUI {
 	}
 }
 func (gui *GUI) SetupUI() {
-	// Создаем навигационную панель
-	navBar := widgets.NavigationBar()
+	// Создаем пустой контентный контейнер
+	mainContent := container.NewMax()
 
-	// Создаем контейнер для основного содержимого (заполнитель)
-	content := container.NewVBox(
-	// ... Ваш основной контент
-	)
+	// Создаем навигационную панель с функцией переключения контента
+	navBar := widget.NavigationBar(mainContent)
 
 	// Объединяем навигационную панель и основное содержимое
-	splitContainer := container.NewHSplit(navBar, content)
-	splitContainer.Offset = 0.2 // Отношение ширины панели к общей ширине окна
+	splitContainer := container.NewHSplit(container.NewVScroll(navBar), mainContent)
+	splitContainer.Offset = 0.15 // Задаем соотношение размеров панели и содержимого
 
 	// Устанавливаем объединенный контейнер в качестве содержимого окна
 	gui.Window.SetContent(splitContainer)
@@ -49,7 +47,6 @@ func (gui *GUI) SetupUI() {
 func (gui *GUI) Run() {
 	// Устанавливаем содержимое окна
 	gui.SetupUI()
-
 	// Показываем окно и запускаем приложение
 	gui.Window.ShowAndRun()
 }
