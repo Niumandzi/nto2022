@@ -4,7 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
-	"github.com/niumandzi/nto2022/internal/ui/page"
+	"github.com/niumandzi/nto2022/internal/ui/pages"
 	"github.com/niumandzi/nto2022/internal/usecase"
 )
 
@@ -37,7 +37,7 @@ func (gui *GUI) SetupUI() {
 	mainContent := container.NewStack()
 
 	// Создаем навигационную панель с функцией переключения контента
-	navBar := page.NavigationBar(mainContent, gui.Cases)
+	navBar := pages.NavigationBar(mainContent, gui.Cases, gui.Window)
 
 	// Объединяем навигационную панель и основное содержимое
 	splitContainer := container.NewHSplit(container.NewVScroll(navBar), mainContent)

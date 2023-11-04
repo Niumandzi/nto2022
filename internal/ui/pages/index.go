@@ -1,4 +1,4 @@
-package page
+package pages
 
 import (
 	"fyne.io/fyne/v2"
@@ -6,7 +6,7 @@ import (
 	"github.com/niumandzi/nto2022/internal/usecase"
 )
 
-func NavigationBar(mainContent *fyne.Container, cases *usecase.UseCases) *widget.Tree {
+func NavigationBar(mainContent *fyne.Container, cases *usecase.UseCases, window fyne.Window) *widget.Tree {
 	// Дерево навигации
 	treeData := map[string][]string{
 		"": {"отели", "контакты"}}
@@ -19,7 +19,7 @@ func NavigationBar(mainContent *fyne.Container, cases *usecase.UseCases) *widget
 		case "отели":
 			//content = page.ShowHotels()
 		case "контакты":
-			content = ShowContacts(cases)
+			content = Contacts(cases, window)
 		default:
 			content = widget.NewLabel("Выберите категорию")
 		}

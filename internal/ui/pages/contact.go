@@ -1,8 +1,9 @@
-package page
+package pages
 
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"github.com/niumandzi/nto2022/internal/ui/widgets"
@@ -10,7 +11,7 @@ import (
 	"github.com/niumandzi/nto2022/model"
 )
 
-func ShowContacts(cases *usecase.UseCases) fyne.CanvasObject {
+func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 	contactListContainer := container.NewStack()
 
 	contactTypes := map[string]string{
@@ -23,8 +24,7 @@ func ShowContacts(cases *usecase.UseCases) fyne.CanvasObject {
 	updateContactList := func(contactType string) {
 		contacts, err := cases.Contact.GetContactsByType(contactType)
 		if err != nil {
-			contactListContainer.Objects = []fyne.CanvasObject{widget.NewLabel("Ошибка загрузки контактов")}
-			contactListContainer.Refresh() // Обновляем контейнер с контактами
+			dialog.ShowError(err, window)
 			return
 		}
 
