@@ -8,6 +8,7 @@ import (
 
 func CreateButtonWidget(id string, window fyne.Window) *widget.Button {
 	button := widget.NewButtonWithIcon("", theme.ContentAddIcon(), func() {
+
 	})
 
 	return button

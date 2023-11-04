@@ -3,6 +3,7 @@ package pages
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
+	"github.com/niumandzi/nto2022/internal/ui/pages/contact"
 	"github.com/niumandzi/nto2022/internal/usecase"
 )
 
@@ -19,7 +20,7 @@ func NavigationBar(mainContent *fyne.Container, cases *usecase.UseCases, window 
 		case "отели":
 			//content = page.ShowHotels()
 		case "контакты":
-			content = Contacts(cases, window)
+			content = contact.ShowContacts(cases, window)
 		default:
 			content = widget.NewLabel("Выберите категорию")
 		}

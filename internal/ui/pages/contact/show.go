@@ -1,4 +1,4 @@
-package pages
+package contact
 
 import (
 	"fyne.io/fyne/v2"
@@ -12,8 +12,8 @@ import (
 	"github.com/niumandzi/nto2022/model"
 )
 
-func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
-	contactListContainer := container.NewStack()
+func ShowContacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
+	contactContainer := container.NewStack()
 
 	contactTypes := map[string]string{
 		"Все":              "all",
@@ -23,6 +23,7 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 	}
 
 	updateContactList := func(contactType string) {
+
 		contacts, err := cases.Contact.GetContactsByType(contactType)
 		if err != nil {
 			dialog.ShowError(err, window)
@@ -35,14 +36,14 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 			grid.Add(card)
 		}
 
-		contactListContainer.Objects = []fyne.CanvasObject{container.NewVScroll(grid)}
-		contactListContainer.Refresh() // Обновляем контейнер с контактами
+		contactContainer.Objects = []fyne.CanvasObject{container.NewVScroll(grid)}
+		contactContainer.Refresh() // Обновляем контейнер с контактами
 	}
 
-	createButton := widgets.CreateButtonWidget("", window)
-	// Создаем выпадающее меню и передаем в него функцию updateContactList как callback
+	createButton := widget.NewButtonWithIcon("", theme.ContentAddIcon(), func() {
+		CreateContact(cases, window)
+	})
 	typeSelect := widgets.TypeSelectWidget(contactTypes, updateContactList)
-
 	// Создаем контейнер для выпадающего меню, чтобы разместить его в верхней части экрана
 	toolbar := container.NewBorder(nil, nil, typeSelect, createButton)
 
@@ -50,7 +51,7 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 	updateContactList("all")
 
 	// Создаем и возвращаем главный контейнер
-	mainContainer := container.NewBorder(toolbar, nil, nil, nil, contactListContainer)
+	mainContainer := container.NewBorder(toolbar, nil, nil, nil, contactContainer)
 
 	return mainContainer
 }
@@ -62,13 +63,15 @@ func createContactCard(cases *usecase.UseCases, contact model.Contact, window fy
 
 	// Create buttons using standard icons
 	deleteButton := widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
-		// Your code to handle deleting using contact.ID
+		err := cases.Contact.DeleteContact(contact.Id)
+		if err != nil {
+			dialog.ShowError(err, window)
+		}
 	})
 	editButton := widget.NewButtonWithIcon("", theme.DocumentCreateIcon(), func() {
 		// Your code to handle editing using contact.ID
 	})
 
-	// Make buttons small
 	deleteButton.Importance = widget.LowImportance
 	editButton.Importance = widget.LowImportance
 
