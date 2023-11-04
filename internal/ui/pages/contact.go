@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/niumandzi/nto2022/internal/ui/widgets"
 	"github.com/niumandzi/nto2022/internal/usecase"
@@ -30,7 +31,7 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 
 		grid := container.New(layout.NewGridLayoutWithColumns(3))
 		for _, contact := range contacts {
-			card := createContactCard(contact)
+			card := createContactCard(cases, contact, window)
 			grid.Add(card)
 		}
 
@@ -38,11 +39,12 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 		contactListContainer.Refresh() // Обновляем контейнер с контактами
 	}
 
+	createButton := widgets.CreateButtonWidget("", window)
 	// Создаем выпадающее меню и передаем в него функцию updateContactList как callback
-	contactTypeSelect := widgets.TypeSelectWidget(contactTypes, updateContactList)
+	typeSelect := widgets.TypeSelectWidget(contactTypes, updateContactList)
 
 	// Создаем контейнер для выпадающего меню, чтобы разместить его в верхней части экрана
-	toolbar := container.NewBorder(nil, nil, nil, contactTypeSelect)
+	toolbar := container.NewBorder(nil, nil, typeSelect, createButton)
 
 	// Начальное обновление списка контактов
 	updateContactList("all")
@@ -53,10 +55,30 @@ func Contacts(cases *usecase.UseCases, window fyne.Window) fyne.CanvasObject {
 	return mainContainer
 }
 
-func createContactCard(contact model.Contact) fyne.CanvasObject {
-	label := widget.NewLabel(card(contact))
-	label.Wrapping = fyne.TextWrapWord // Перенос текста по словам
-	return widget.NewCard("", "", label)
+func createContactCard(cases *usecase.UseCases, contact model.Contact, window fyne.Window) fyne.CanvasObject {
+	cardText := card(contact)
+	label := widget.NewLabel(cardText)
+	label.Wrapping = fyne.TextWrapWord // Text wrapping
+
+	// Create buttons using standard icons
+	deleteButton := widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
+		// Your code to handle deleting using contact.ID
+	})
+	editButton := widget.NewButtonWithIcon("", theme.DocumentCreateIcon(), func() {
+		// Your code to handle editing using contact.ID
+	})
+
+	// Make buttons small
+	deleteButton.Importance = widget.LowImportance
+	editButton.Importance = widget.LowImportance
+
+	// Arrange buttons in the bottom right corner
+	buttons := container.NewHBox(layout.NewSpacer(), editButton, deleteButton)
+
+	// Create card with label and buttons
+	card := widget.NewCard("", "", container.NewBorder(nil, buttons, nil, nil, label))
+
+	return card
 }
 
 func card(contact model.Contact) string {
