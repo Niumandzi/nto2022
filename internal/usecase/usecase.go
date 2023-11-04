@@ -9,7 +9,6 @@ type ContactUseCase interface {
 	CreateContact(contact model.Contact) (int, error)
 	GetContact(contactId int) (model.Contact, error)
 	GetContactsByType(contactType string) ([]model.Contact, error)
-	GetAllContacts() ([]model.Contact, error)
 	UpdateContact(contactInput model.Contact) error
 	DeleteContact(contactId int) error
 }

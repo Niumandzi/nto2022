@@ -10,7 +10,7 @@ func (c ContactUsecase) GetContactsByType(contactType string) ([]model.Contact, 
 	ctx, cancel := context.WithTimeout(c.ctx, c.contextTimeout)
 	defer cancel()
 
-	err := validation.Validate(contactType, validation.Required, validation.In("worker", "private_client", "legal_client"))
+	err := validation.Validate(contactType, validation.Required, validation.In("all", "worker", "private_client", "legal_client"))
 	if err != nil {
 		c.logger.Error(err.Error())
 		return nil, err

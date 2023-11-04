@@ -66,34 +66,17 @@ func (s ContactRepository) GetById(ctx context.Context, contactId int) (model.Co
 }
 
 func (s ContactRepository) GetByType(ctx context.Context, contactType string) ([]model.Contact, error) {
-	rows, err := s.db.QueryContext(ctx, "SELECT * FROM contact WHERE contact_type = ?", contactType)
-	if err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-	defer rows.Close()
+	var query string
+	var args []interface{}
 
-	var contacts []model.Contact
-	for rows.Next() {
-		var contact model.Contact
-		err := rows.Scan(&contact.Id, &contact.ContactType, &contact.Name, &contact.Number, &contact.Email)
-		if err != nil {
-			s.logger.Error(err.Error())
-			return nil, err
-		}
-		contacts = append(contacts, contact)
+	if contactType == "all" {
+		query = "SELECT * FROM contact"
+	} else {
+		query = "SELECT * FROM contact WHERE contact_type = ?"
+		args = append(args, contactType)
 	}
 
-	if err := rows.Err(); err != nil {
-		s.logger.Error(err.Error())
-		return nil, err
-	}
-
-	return contacts, nil
-}
-
-func (s ContactRepository) GetAll(ctx context.Context) ([]model.Contact, error) {
-	rows, err := s.db.QueryContext(ctx, "SELECT * FROM contact")
+	rows, err := s.db.QueryContext(ctx, query, args...)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
